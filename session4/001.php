@@ -27,7 +27,7 @@ if (isset($_GET["added"]) && $_GET["added"] == "ok") {
     echo "<h3 style='color: green'>student added successfully</h3>";
 }
 if (isset($_GET["updated"]) && $_GET["updated"] == "ok") {
-    echo "<h3 style='color: green'>student added successfully</h3>";
+    echo "<h3 style='color: green'>student updated successfully</h3>";
 }
 if (isset($_GET["notExist"]) && $_GET["notExist"] == "ok") {
     echo "<h3 style='color: red'>student does not exist</h3>";

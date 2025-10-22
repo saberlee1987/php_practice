@@ -24,13 +24,28 @@ $users = [
     ]
 ];
 
-var_dump($users[2]["parents"]["mom"]);
-var_dump($users[2]["parents"]["dad"]);
-$age = 10;
-$a = "10";
-$b = 10;
-var_dump($a == $age);
-var_dump($a === $age);
-var_dump($age === $b);
+//var_dump($users[2]["parents"]["mom"]);
+//var_dump($users[2]["parents"]["dad"]);
+//$age = 10;
+//$a = "10";
+//$b = 10;
+//var_dump($a == $age);
+//var_dump($a === $age);
+//var_dump($age === $b);
 
+
+function printArray($array)
+{
+    foreach ($array as $key =>$value) {
+        if (is_array($value)) {
+            printArray($value);
+        var_dump("==================================================================");
+        } else {
+           var_dump("$key : $value");
+        }
+    }
+}
+
+
+printArray($users);
 ?>

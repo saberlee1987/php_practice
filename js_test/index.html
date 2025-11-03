@@ -17,10 +17,11 @@
     <option value="*">*</option>
     <option value="/">/</option>
 </select>
-<input type="text" name="nmber2" id="number2" placeholder="number2"/>
+<input type="text" name="number2" id="number2" placeholder="number2"/>
 <button onclick="calculator()">calculator</button>
 <br><br>
 <label id="result"></label>
+<div id="myClockDisplay" class="clock"></div>
 
 <script>
     let number1Element = document.getElementById("number1");
@@ -28,6 +29,33 @@
 
     document.getElementById("btnTest");
     number1Element.addEventListener("mouseover", e => mouseover(e));
+
+    function clockRunner() {
+        let d = new Date();
+        let hour = d.getHours();
+        let minute = d.getMinutes();
+        let seconds = d.getSeconds();
+
+        let p = "AM"
+        if (hour > 12) {
+            hour -= 12;
+            p = "PM";
+        }
+        if (hour < 10) {
+            hour = "0" + hour;
+        }
+        if (minute < 10) {
+            minute = "0" + minute;
+        }
+        if (seconds < 10) {
+            seconds = "0" + seconds;
+        }
+
+        document.getElementById("myClockDisplay").textContent = `${hour}:${minute}:${seconds} ${p}`;
+        setTimeout(clockRunner, 1000);
+    }
+
+    clockRunner();
 </script>
 </body>
 </html>

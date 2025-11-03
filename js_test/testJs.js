@@ -1,3 +1,4 @@
+'use strict';
 let array = [];
 array.push(1, 2, 3, 4, 5, 6, 7);
 array.pop();
@@ -11,6 +12,18 @@ console.log(array.filter(value => {return value % 2 === 0}).toString())
 console.log(array.map(value => {return value * 2}).toString())
 console.log(array.sort((v1,v2)=>{return v2 - v1}).toString()) //desc
 console.log(array.sort((v1,v2)=>{return v1 - v2}).toString()) //asc
+
+let date = new Date(1987,11,7,5,0,0);
+console.log(date)
+
+console.log("timestamp ==> "+new Date().getTime())
+// let i = 1;
+// setTimeout(function (){
+//     console.log("i ===> ",i++);
+// },1500)
+// setInterval(function (){
+//     console.log("i ===> ",i++);
+// },1500)
 
 
 function test() {

@@ -1,0 +1,25 @@
+<?php
+//require "NumberFormatter.php";
+$str = "Hello I am saber Azizi.I am java developer";
+$number = 150000000.568;
+var_dump($str);
+var_dump("is_string ==> ".is_string($str));
+var_dump("strlen ==> ".strlen($str));
+var_dump("str_repeat ==> ".str_repeat("****",3));
+var_dump("lcfirst ==> ".lcfirst($str));
+var_dump("ucfirst ==> ".ucfirst($str));
+var_dump("ucwords ==> ".ucwords($str));
+var_dump("strtolower==>  ".strtolower($str));
+var_dump("strtoupper ==> ".strtoupper($str));
+var_dump("ltrim ==> ".ltrim($str));
+var_dump("ltrim ==> ".ltrim($str,"Hello"));
+var_dump("rtrim ==> ".rtrim($str));
+var_dump("trim ==> ".trim($str));
+var_dump("number_format ==> ".number_format($number));
+var_dump(explode(" ",$str));
+var_dump(implode("**",[1,2,3,4,5,6,7,8,9,10]));
+var_dump("substr ==> ".substr($str,8));
+var_dump("strstr ==> ".strstr($str,"java"));
+var_dump("strstr ==> ".strstr($str,"d"));
+var_dump("str_shuffle ==> ".str_shuffle($str));
+var_dump("str_word_count ==> ".str_word_count($str));

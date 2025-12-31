@@ -16,8 +16,6 @@
 if (isset($_GET["success"])) {
     echo "<h4 style='color: #04AA6D'>success upload file</h4>";
 }
-#this is comment
-// this is comment
 ?>
 <form action="processUploadFile.php" method="post" enctype="multipart/form-data">
     <input type="file" name="file" >

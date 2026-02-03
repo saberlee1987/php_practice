@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>java script test 3</title>
+    <script src="./test2.js"></script>
+</head>
+<body>
+<h3>java script 3 example</h3>
+<hr/>
+
+<div class="div1">
+    <div id="div1" class="div1">
+        <ul>
+            <li>item1</li>
+            <li>item2</li>
+            <li>item2</li>
+        </ul>
+    </div>
+
+</div>
+
+<div>test</div>
+<div id="div2"><ol>
+    <li>item1</li>
+    <li>item2</li>
+    <li>item3</li>
+    </ol>
+</div>
+<div id="div3">test3</div>
+<table id="table1" class="table1">
+    <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>age</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>John</td>
+        <td>25</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>Mary</td>
+        <td>25</td>
+    </tr>
+</table>
+<table></table>
+<button id="button1" >click me</button>
+<script>
+    // 'use strict';
+    // let button1 = document.getElementById("button1");
+    // button1.onclick = test
+    // let body = document.body;
+    // let childNode5 = body.childNodes[5];
+    // // console.log(childNode5);
+    // let childNode5Count = childNode5.childNodes.length;
+    // for (let i = 0; i <childNode5Count ; i++) {
+    //     console.log(childNode5.childNodes[i]);
+    // }
+    //
+    // console.log(table1);
+    // console.log(table1.tBodies);
+    // console.log(table1.tBodies[0].rows)
+    //  let div1 = document.getElementById("div1");
+    //  console.log(div1);
+    //  let divs = document.getElementsByTagName("div");
+    //  console.log(divs);
+    // let tables = document.querySelectorAll("table");
+    // console.log(tables);
+
+    // let ulLiElement = document.querySelector("ul li");
+    // // let ulLiElement = document.querySelectorAll("ul li");
+    // console.log(ulLiElement);
+    // console.log(ulLiElement.closest('.div1'));
+    let tables = document.getElementsByTagName("table");
+    console.log(tables);
+
+</script>
+
+<table id="table2" class="table2">
+    <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>age</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>saber</td>
+        <td>38</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>bruce</td>
+        <td>33</td>
+    </tr>
+</table>
+<table id="table3" class="table3">
+    <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>age</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>saber</td>
+        <td>38</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>bruce</td>
+        <td>33</td>
+    </tr>
+</table>
+
+<script>
+    console.log(tables);
+    console.log(document.body instanceof HTMLBodyElement)
+    let div3 = document.getElementById("div3");
+    console.log(div3);
+    console.log(div3.innerHTML);
+    div3.innerHTML = "<h3>Hello World !!!</h3>";
+    console.log(div3);
+    console.log(div3.innerHTML);
+    console.log(div3.outerHTML);
+
+    // div3.innerHTML = div3.innerHTML + "<hr/>";
+    div3.innerHTML += "<hr/>";
+    console.log(div3.innerHTML);
+
+    // div3.outerHTML = "<a id='link1' href='#'>Home</a>"
+    // console.log(div3.outerHTML);
+    //let link1 = document.getElementById("link1");
+    // console.log(link1);
+</script>
+</body>
+</html>

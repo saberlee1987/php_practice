@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>java script test 4</title>
+</head>
+<body>
+    <h4>java script test 4</h4>
+<!--    <input type="text" name="firstname" id="firstname" placeholder="firstname"/><br>-->
+<!--    <input type="password" name="password" id="password" placeholder="password"/>-->
+    <div id="div1" class="box">div1</div>
+    <script>
+        // console.log("js test 4");
+        // let firstnameInput = document.getElementById("firstname");
+        // console.log(firstnameInput.hasAttribute("type"));
+        // console.log(firstnameInput.getAttribute("type"));
+        // firstnameInput.setAttribute("data","dataSaber");
+        let div1 = document.getElementById("div1");
+
+        let classList = div1.classList;
+        classList.add("box2","box3");
+        console.log(classList);
+        classList.toggle("box3");
+        console.log(classList);
+
+
+        function createElement() {
+            let div1 = document.getElementById("div1");
+            let ul = document.createElement("ul");
+            ul.className = "classUl";
+            let li = document.createElement('li');
+            li.innerText = "second Item"
+            ul.append(li);
+            let cloneNode = li.cloneNode(true); // with data
+
+            li = document.createElement('li');
+            li.innerText = "first Item"
+            ul.prepend(li);
+            li = document.createElement('li');
+            li.innerText = "third Item"
+            ul.append(li);
+            li = document.createElement('li');
+            li.innerHTML = "<a href='#'>link1</a>"
+            ul.prepend(li)
+
+            div1.append(ul);
+        }
+
+        // console.log(firstnameInput.getAttribute("data"));
+        //createElement();
+
+    </script>
+</body>
+</html>

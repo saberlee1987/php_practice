@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>document position</title>
+    <style>
+        .box {
+            width: 300px;
+            height: 200px;
+            border: 25px solid #E8C48F;
+            padding: 20px;
+            overflow: auto;
+        }
+
+        #circle {
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            position: absolute;
+            border-radius: 100%;
+            top: 0;
+        }
+
+        .box div {
+            height: 200px;
+        }
+    </style>
+</head>
+<body style="text-align: center">
+<h1>Hello to all students</h1>
+<hr>
+<div id="circle"></div>
+<p>number 1</p>
+<div id="example1" class="box">
+    <div>box 1</div>
+    <div>box 2</div>
+    <div>box 3</div>
+    <div>box 4</div>
+    <div>box 5</div>
+</div>
+<script>
+    let example1 = document.getElementById("example1");
+    // console.log(example1.getBoundingClientRect());
+
+    document.onmousemove = function (event) {
+        event = event || window.event;
+        if (event.pageX == null && event.clientX !=null) {
+            event.pageX = event.clientX + document.body.scrollLeft;
+            event.pageY = event.clientY + document.body.scrollTop;
+        }
+        //console.log(event.pageX,event.pageY);
+        let hoveredElement = document.elementFromPoint(event.pageX,event.pageY);
+        if (hoveredElement !=null) {
+            //console.log(hoveredElement.tagName);
+            if (hoveredElement.tagName.toLowerCase() !== 'body') {
+                //console.log("tagName ==> ",hoveredElement.tagName)
+                hoveredElement.style.backgroundColor = 'gray';
+            } else {
+                // console.log("hoveredElement.tagName is body")
+            }
+        }
+    }
+
+    function leaved(event) {
+        event = event || window.event;
+        if (event.target !=null) {
+            console.log(event.target);
+            event.target.style.backgroundColor = '';
+        }
+     }
+    for (let element of document.body.childNodes) {
+        if (element instanceof Element) {
+            element.onmouseleave = leaved;
+        }
+    }
+</script>
+</body>
+</html>

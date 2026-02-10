@@ -1,6 +1,12 @@
 // function sum(n1 , n2) {
 //     return n1 + n2;
 // }
+// faradars
+(document.getElementsByTagName('video')[0].childNodes[0]).getAttribute('src');
+//7Learn
+(document.getElementsByTagName('video')[0].childNodes[1]).getAttribute('src');
+
+
 
 let sum = (n1, n2) => {
     return n1 + n2

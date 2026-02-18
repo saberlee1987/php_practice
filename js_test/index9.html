@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>json and ajax example</title>
+</head>
+<body>
+<h4>json and ajax example</h4>
+<script>
+
+
+    function testJson() {
+        let person = {
+            firstname: "saber"
+            , lastname: "azizi"
+            , age: 38
+        }
+        let array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        let json = JSON.stringify(person);
+        console.log(json);
+        person = JSON.parse(json);
+        console.log(person)
+
+        json = JSON.stringify(array);
+        console.log(json);
+        array = JSON.parse(json);
+        console.log(array);
+    }
+
+    function processResult(response) {
+        response.forEach(element=>{
+            console.log(element.id,'==> ',element.title);
+        })
+    }
+
+    function testAjax() {
+        let ajax = new XMLHttpRequest();
+        let url = 'https://fakerestapi.azurewebsites.net/api/v1/Activities';
+        ajax.open('GET', url,true);
+        ajax.send();
+        ajax.onreadystatechange = function () {
+            //console.log(this);
+            let readyState = this.readyState;
+            //console.log(readyState);
+            if (readyState === ajax.DONE && this.status === 200) {
+                let response = JSON.parse(this.response);
+                processResult(response);
+            }
+        }
+        //ajax.DONE
+    }
+    function testAjax2() {
+        let ajax = new XMLHttpRequest();
+        let url = 'https://fakerestapi.azurewebsites.net/api/v1/Activities';
+        ajax.open('POST', url);
+        ajax.setRequestHeader("content-type","application/json")
+        let body = '{' +
+            '  "id": 15000,' +
+            '  "title": "java",' +
+            '  "dueDate": "2026-02-14T11:40:10.230Z",' +
+            '  "completed": true' +
+            '}';
+
+        ajax.send(body);
+        ajax.onreadystatechange = function () {
+            //console.log(this);
+            let readyState = this.readyState;
+           // console.log(readyState);
+            if (readyState === ajax.DONE && this.status === 200) {
+                let response = JSON.parse(this.response);
+                console.log(response);
+               // processResult(response);
+            }
+        }
+        //ajax.DONE
+    }
+
+    //testJson();
+    testAjax2();
+
+</script>
+</body>
+</html>

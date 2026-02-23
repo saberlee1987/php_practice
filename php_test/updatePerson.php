@@ -1,6 +1,7 @@
 <?php
 global $pdo;
 require_once 'connectToDataBase.php';
+require_once 'validationPerson.php';
 require_once 'jdf.php';
 ?>
 
@@ -11,13 +12,20 @@ require_once 'jdf.php';
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Update php</title>
+    <title>به‌روزرسانی اطلاعات شخص</title>
+    <link rel="stylesheet" href="./bootstrap.rtl.min.css">
+    <script src="./bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="./personPage.css">
+    <style>
+        .form-control:focus {
+            border-color: #ffc107;
+            box-shadow: 0 0 0 0.2rem rgba(255,193,7,0.25);
+        }
+    </style>
 </head>
 <body>
-    <h4>update person data</h4>
-    <a href="./showPersons.php">Back to person list</a> <br><br>
-
     <?php
+    $errorMessage = [];
     $method = $_SERVER['REQUEST_METHOD'];
     if ($method === "GET") {
         if (empty($_GET["id"])) {
@@ -30,39 +38,110 @@ require_once 'jdf.php';
                 header("Location: showPersons.php");
                 exit(0);
             } ?>
-            <form action="" method="post" novalidate>
-                <input type="hidden" name="id" value="<?= $id ?>"/>
-                <label for="firstName">firstName</label>
-                <input type="text" name="firstName" id="firstName" placeholder="firstName"
-                       value="<?= $person["firstName"] ?>"><br>
-                <label for="lastName">lastName</label>
-                <input type="text" name="lastName" id="lastName" placeholder="lastName"
-                       value="<?= $person["lastName"] ?>"><br>
-                <label for="mobile">mobile</label>
-                <input type="text" name="mobile" id="mobile" placeholder="mobile" value="<?= $person["mobile"] ?>"><br>
-                <label for="nationalCode">nationalCode</label>
-                <input type="text" name="nationalCode" id="nationalCode" readonly disabled value="<?= $person["nationalCode"] ?>"><br>
-                <label for="email">email</label>
-                <input type="email" name="email" id="email" placeholder="email" value="<?= $person["email"] ?>"><br>
-                <label for="age">age</label>
-                <input type="number" name="age" id="age" placeholder="age" value="<?= $person["age"] ?>"><br>
-                <label for="createdAt">createdAt</label>
-                <input type="text" name="createdAt" id="createdAt" readonly disabled value="<?= jdate("Y/n/j", strtotime($person["createdAt"])) ?>"
-                       size="30"><br>
-                <label for="updatedAt">updatedAt</label>
-                <input type="text" name="updatedAt" id="updatedAt" readonly disabled size="30"
-                       value="<?=jdate("Y/n/j", strtotime($person["updatedAt"]))?>"><br>
-                <input type="submit" value="update">
-            </form>
         <?php }
     } else if ($method === "POST") {
         extract($_POST);
-        updatePerson();
-        header("Location: showPersons.php");
+        $errorMessage = validatePerson($firstName, $lastName, $mobile, null, $email, $age);
+        $id = $_GET["id"];
+        $person = getPersonById($id);
+        //var_dump($errorMessage);
+        if (empty($errorMessage)) {
+            updatePerson();
+            header("Location: showPersons.php");
+        }
     }
     ?>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+                <!-- دکمه بازگشت به لیست -->
+                <div class="mb-3">
+                    <a href="./showPersons.php" class="btn btn-secondary">
+                        <i class="bi bi-arrow-right"></i> بازگشت به لیست افراد
+                    </a>
+                </div>
 
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h4>ویرایش اطلاعات شخص</h4>
+                    </div>
+                    <div class="card-body">
+                        <!-- در صورت نیاز به نمایش پیام خطا یا موفقیت می‌توان از آلرت استفاده کرد -->
+                        <?php if (!empty($errorMessage)): ?>
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <ul>
+                                    <?php foreach ($errorMessage as $error) {?>
+                                        <li><?=htmlspecialchars($error)?></li>
+                                    <?php }?>
+                                </ul>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="بستن"></button>
+                            </div>
+                        <?php endif; ?>
 
+                        <form action="" method="post" novalidate>
+                            <input type="hidden" name="id" value="<?= htmlspecialchars($id ?? '') ?>">
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="firstName" class="form-label">نام</label>
+                                    <input type="text" class="form-control" name="firstName" id="firstName"
+                                           placeholder="نام" value="<?= htmlspecialchars($person['firstName'] ?? '') ?>">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="lastName" class="form-label">نام خانوادگی</label>
+                                    <input type="text" class="form-control" name="lastName" id="lastName"
+                                           placeholder="نام خانوادگی" value="<?= htmlspecialchars($person['lastName'] ?? '') ?>">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="mobile" class="form-label">موبایل</label>
+                                    <input type="text" class="form-control" name="mobile" id="mobile"
+                                           placeholder="موبایل" value="<?= htmlspecialchars($person['mobile'] ?? '') ?>">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="nationalCode" class="form-label">کد ملی</label>
+                                    <input type="text" class="form-control" name="nationalCode" id="nationalCode"
+                                           readonly disabled value="<?= htmlspecialchars($person['nationalCode'] ?? '') ?>">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">ایمیل</label>
+                                    <input type="email" class="form-control" name="email" id="email"
+                                           placeholder="ایمیل" value="<?= htmlspecialchars($person['email'] ?? '') ?>">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="age" class="form-label">سن</label>
+                                    <input type="number" class="form-control" name="age" id="age"
+                                           placeholder="سن" value="<?= htmlspecialchars($person['age'] ?? '') ?>">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="createdAt" class="form-label">تاریخ ایجاد</label>
+                                    <input type="text" class="form-control" name="createdAt" id="createdAt"
+                                           readonly disabled value="<?= htmlspecialchars(jdate('Y/n/j', strtotime($person['createdAt'] ?? '')) ?? '') ?>">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="updatedAt" class="form-label">تاریخ آخرین به‌روزرسانی</label>
+                                    <input type="text" class="form-control" name="updatedAt" id="updatedAt"
+                                           readonly disabled value="<?= htmlspecialchars(jdate('Y/n/j', strtotime($person['updatedAt'] ?? '')) ?? '') ?>">
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-warning btn-lg">به‌روزرسانی اطلاعات</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
 <?php

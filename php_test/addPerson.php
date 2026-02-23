@@ -1,7 +1,7 @@
 <?php
 global $pdo;
 require_once 'connectToDataBase.php';
-
+require_once 'validationPerson.php';
 $method = $_SERVER['REQUEST_METHOD'];
 $firstName = "";
 $lastName = "";
@@ -9,26 +9,16 @@ $mobile = "";
 $nationalCode = "";
 $email = "";
 $age = "";
-$errorMessage = "";
+$errorMessage = [];
 if ($method === 'POST') {
     extract($_POST);
-    //validation
-    if (empty($firstName))  $errorMessage.="firstname is required <br/>";
-    if (empty($lastName))  $errorMessage.="lastName is required <br/>";
-    if (empty($mobile)  )  $errorMessage.="mobile is required <br/>";
-    if (!str_starts_with($mobile,"09") || strlen($mobile) !=11)
-        $errorMessage.="mobile is invalid <br/>";
-    if (empty($nationalCode))  $errorMessage.="nationalCode is required <br/>";
-    if (strlen($nationalCode) !=10)  $errorMessage.="nationalCode is invalid <br/>";
-    if (empty($email))  $errorMessage.="email is required <br/>";
-    if (!filter_var($email,FILTER_VALIDATE_EMAIL))  $errorMessage.="email is invalid <br/>";
-    if (empty($age))  $errorMessage.="age is required <br/>";
+    $errorMessage = validatePerson($firstName, $lastName, $mobile, $nationalCode, $email, $age);
 
     if (!$errorMessage) {
         $personByNationalCode = getPersonByNationalCode($nationalCode);
         if ($personByNationalCode) {
-            $errorMessage.="person already exist by nationalCode ${nationalCode} <br/>";
-        }else{
+            $errorMessage[] = " شخصی با کد ملی  $nationalCode  در سامانه یافت شد ";
+        } else {
             savePerson();
             header("Location: showPersons.php");
         }
@@ -43,12 +33,12 @@ function savePerson(): void
           values(:firstName,:lastName,:age,:nationalCode,:email,:mobile,:createdAt,:updatedAt) ";
     $PDOStatement = $pdo->prepare($sql);
     $PDOStatement->execute([
-            ":firstName" => $firstName,
-            ":lastName" => $lastName,
-            ":nationalCode" => $nationalCode,
-            ":age" => $age,
-            ":email" => $email,
-            ":mobile" => $mobile,
+            ":firstName" => htmlspecialchars($firstName),
+            ":lastName" => htmlspecialchars($lastName),
+            ":nationalCode" => htmlspecialchars($nationalCode),
+            ":age" => htmlspecialchars($age),
+            ":email" => htmlspecialchars($email),
+            ":mobile" => htmlspecialchars($mobile),
             ":createdAt" => date('Y-m-d H:i:s'),
             ":updatedAt" => date('Y-m-d H:i:s')
     ]);
@@ -63,30 +53,86 @@ function savePerson(): void
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Add new person</title>
+    <link rel="stylesheet" href="./bootstrap.rtl.min.css">
+    <script src="./bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="./personPage.css">
+    <title>افزودن شخص جدید</title>
 </head>
 <body>
-    <h4>Add new Person data</h4>
-    <?php
-    if ($errorMessage) { ?>
-        <h4 style="color: red"><?=$errorMessage?></h4>
-    <?php }  ?>
-    <form action="" method="post" novalidate>
-        <label for="firstName">firstName</label>
-        <input type="text" name="firstName" id="firstName" placeholder="firstName"
-               value="<?= $firstName ?>"><br>
-        <label for="lastName">lastName</label>
-        <input type="text" name="lastName" id="lastName" placeholder="lastName"
-               value="<?= $lastName ?>"><br>
-        <label for="mobile">mobile</label>
-        <input type="text" name="mobile" id="mobile" placeholder="mobile" value="<?= $mobile ?>"><br>
-        <label for="nationalCode">nationalCode</label>
-        <input type="text" name="nationalCode" id="nationalCode" value="<?= $nationalCode ?>"><br>
-        <label for="email">email</label>
-        <input type="email" name="email" id="email" placeholder="email" value="<?= $email ?>"><br>
-        <label for="age">age</label>
-        <input type="number" name="age" id="age" placeholder="age" value="<?= $age ?>"><br>
-        <input type="submit" value="Add new person">
-    </form>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <!-- دکمه بازگشت به لیست -->
+                <div class="mb-3">
+                    <a href="./showPersons.php" class="btn btn-secondary">
+                        <i class="bi bi-arrow-right"></i> بازگشت به لیست افراد
+                    </a>
+                </div>
+
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h4>افزودن شخص جدید</h4>
+                    </div>
+                    <div class="card-body">
+                        <!-- نمایش پیام خطا -->
+                        <?php if (!empty($errorMessage)): ?>
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <ul>
+                                <?php foreach ($errorMessage as $error) {?>
+                                        <li><?=htmlspecialchars($error)?></li>
+                                <?php }?>
+                                </ul>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="بستن"></button>
+                            </div>
+                        <?php endif; ?>
+
+                        <form action="" method="post" novalidate>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="firstName" class="form-label">نام</label>
+                                    <input type="text" class="form-control" name="firstName" id="firstName"
+                                           placeholder="نام" value="<?= htmlspecialchars($firstName ?? '') ?>">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="lastName" class="form-label">نام خانوادگی</label>
+                                    <input type="text" class="form-control" name="lastName" id="lastName"
+                                           placeholder="نام خانوادگی" value="<?= htmlspecialchars($lastName ?? '') ?>">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="mobile" class="form-label">موبایل</label>
+                                    <input type="text" class="form-control" name="mobile" id="mobile"
+                                           placeholder="موبایل" value="<?= htmlspecialchars($mobile ?? '') ?>">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="nationalCode" class="form-label">کد ملی</label>
+                                    <input type="text" class="form-control" name="nationalCode" id="nationalCode"
+                                           placeholder="کد ملی" value="<?= htmlspecialchars($nationalCode ?? '') ?>">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">ایمیل</label>
+                                    <input type="email" class="form-control" name="email" id="email"
+                                           placeholder="ایمیل" value="<?= htmlspecialchars($email ?? '') ?>">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="age" class="form-label">سن</label>
+                                    <input type="number" class="form-control" name="age" id="age"
+                                           placeholder="سن" value="<?= htmlspecialchars($age ?? '') ?>">
+                                </div>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg">ثبت شخص</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

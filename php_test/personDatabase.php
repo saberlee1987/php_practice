@@ -67,11 +67,11 @@ function updatePerson(): void
                , email=:email , mobile=:mobile , updatedAt=:updatedAt   where id=:id";
     $PDOStatement = $pdo->prepare($sql);
     $PDOStatement->execute([
-        ":firstName" => $firstName,
-        ":lastName" => $lastName,
-        ":age" => $age,
-        ":email" => $email,
-        ":mobile" => $mobile,
+        ":firstName" => htmlspecialchars($firstName),
+        ":lastName" => htmlspecialchars($lastName),
+        ":age" => htmlspecialchars($age),
+        ":email" => htmlspecialchars($email),
+        ":mobile" => htmlspecialchars($mobile),
         ":updatedAt" => date('Y-m-d H:i:s'),
         ":id" => $id
 

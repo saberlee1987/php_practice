@@ -1,6 +1,7 @@
 <?php
 global $pdo;
-require_once 'connectToDataBase.php';
+require_once 'personDatabase.php';
+require_once 'personDatabase.php';
 require_once 'jdf.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
@@ -16,11 +17,3 @@ if (!getPersonById($id)) {
 deletePersonById($id);
 header("Location: showPersons.php");
 
-function deletePersonById($id) :void
-{
-    global $pdo;
-    $statement = $pdo->prepare("delete from persons where id=:id");
-    $statement->execute([
-        ":id" =>$id
-    ]);
-}

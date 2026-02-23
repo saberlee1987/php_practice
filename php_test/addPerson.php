@@ -1,6 +1,6 @@
 <?php
 global $pdo;
-require_once 'connectToDataBase.php';
+require_once 'personDatabase.php';
 require_once 'validationPerson.php';
 $method = $_SERVER['REQUEST_METHOD'];
 $firstName = "";
@@ -13,7 +13,6 @@ $errorMessage = [];
 if ($method === 'POST') {
     extract($_POST);
     $errorMessage = validatePerson($firstName, $lastName, $mobile, $nationalCode, $email, $age);
-
     if (!$errorMessage) {
         $personByNationalCode = getPersonByNationalCode($nationalCode);
         if ($personByNationalCode) {
@@ -24,26 +23,6 @@ if ($method === 'POST') {
         }
     }
 }
-
-
-function savePerson(): void
-{
-    global $pdo, $age, $email, $firstName, $lastName, $mobile, $nationalCode;
-    $sql = "insert into persons  (firstName,lastName,age,nationalCode,email,mobile,createdAt,updatedAt)
-          values(:firstName,:lastName,:age,:nationalCode,:email,:mobile,:createdAt,:updatedAt) ";
-    $PDOStatement = $pdo->prepare($sql);
-    $PDOStatement->execute([
-            ":firstName" => htmlspecialchars($firstName),
-            ":lastName" => htmlspecialchars($lastName),
-            ":nationalCode" => htmlspecialchars($nationalCode),
-            ":age" => htmlspecialchars($age),
-            ":email" => htmlspecialchars($email),
-            ":mobile" => htmlspecialchars($mobile),
-            ":createdAt" => date('Y-m-d H:i:s'),
-            ":updatedAt" => date('Y-m-d H:i:s')
-    ]);
-}
-
 ?>
 
 <!doctype html>

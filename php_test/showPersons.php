@@ -1,16 +1,7 @@
 <?php
 global $pdo;
 require_once 'jdf.php';
-require_once 'connectToDataBase.php';
-//$columns = $pdo->query("show columns from persons")->fetchAll(PDO::FETCH_OBJ);
-//foreach ($columns as $column) {
-//    foreach ($column as $key =>$value) {
-//        if ($key === 'Field') {
-//         if ($value == 'id') continue;
-//        $fields[] = $value;
-//        }
-//    }
-//}
+require_once 'personDatabase.php';
 $fields = [];
 $fields[] = "نام";
 $fields[] = "نام خانوادگی";
@@ -20,10 +11,7 @@ $fields[] = "شماره همراه";
 $fields[] = "ایمیل";
 $fields[] = "تاریخ ایجاد";
 $fields[] = "آخرین تاریخ به روز رسانی";
-
-$prepareStatement = $pdo->prepare("select id,firstName,lastName,nationalCode,age,mobile,email,createdAt,updatedAt from persons order by id desc");
-$prepareStatement->execute();
-$persons = $prepareStatement->fetchAll(PDO::FETCH_ASSOC);
+$persons = getPersons();
 ?>
     <!doctype html>
     <html lang="en">

@@ -1,6 +1,6 @@
 <?php
 global $pdo;
-require_once 'connectToDataBase.php';
+require_once 'personDatabase.php';
 require_once 'validationPerson.php';
 require_once 'jdf.php';
 ?>
@@ -144,24 +144,3 @@ require_once 'jdf.php';
     </div>
 </body>
 </html>
-<?php
-
-function updatePerson(): void
-{
-    global $pdo, $age, $email, $firstName, $lastName, $mobile, $id;
-    $sql = "update persons set firstName=:firstName , lastName=:lastName , age=:age 
-               , email=:email , mobile=:mobile , updatedAt=:updatedAt   where id=:id";
-    $PDOStatement = $pdo->prepare($sql);
-    $PDOStatement->execute([
-            ":firstName" => $firstName,
-            ":lastName" => $lastName,
-            ":age" => $age,
-            ":email" => $email,
-            ":mobile" => $mobile,
-            ":updatedAt" => date('Y-m-d H:i:s'),
-            ":id" => $id
-
-    ]);
-}
-
-?>

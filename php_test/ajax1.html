@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test Ajax practice</title>
+    <script src="jquery-4.0.0.min.js"></script>
+</head>
+<body>
+ <h4>ajax practice</h4>
+ <form id="myForm" method="post">
+     <label for="name">name : </label><input type="text" name="name" id="name"><br><br/>
+     <label for="age">age : </label> <input type="number" name="age" id="age"><br><br/>
+     <input type="submit" value="add student">
+ </form>
+<div id="result"></div>
+<script>
+    function getStudentsTable(response) {
+        let students = JSON.parse(response);
+        let table = document.createElement("table");
+        table.border = 2;
+        table.style = "width : 300px"
+        let tr = document.createElement("tr");
+        tr.innerHTML = "<td>name</td><td>age</td>";
+        table.append(tr);
+        for (let i in students) {
+            console.log(students[i]['name']);
+            console.log(students[i]['age']);
+            console.log("=============================")
+            let name = students[i]['name'];
+            let age = students[i]['age'];
+            tr = document.createElement("tr");
+            tr.innerHTML = `<td>${name}</td><td>${age}</td>`;
+            table.append(tr);
+        }
+        return table;
+    }
+
+    $(document).ready(function(){
+      let myForm = $('#myForm');
+      myForm.submit(function (event) {
+          event.preventDefault();
+
+          let json = {
+              'name' : $('input#name').val()
+              ,'age' : $('input#age').val()
+          }
+          console.log(json);
+         $.ajax({
+             url: '/example/php_practice/php_test/ajaxPhp.php'
+             , method: myForm.attr('method')
+             , data: myForm.serialize()
+             , success: function (response) {
+                 //console.log(response);
+                 let table = getStudentsTable(response);
+                 $('#result').html(table);
+             }
+         })
+      });
+    });
+</script>
+</body>
+</html>

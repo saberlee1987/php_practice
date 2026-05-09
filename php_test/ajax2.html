@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ajax 2 page</title>
+    <script src="jquery-4.0.0.min.js"></script>
+</head>
+<body>
+    <h4>ajax 2 page practice</h4>
+    <button id="btn_users">get All users</button>
+    <br>
+    result ajax :
+    <div id="result"></div>
+<script>
+    function getTableArrays(response) {
+        let arrays = JSON.parse(response);
+        let table = document.createElement("table");
+        table.border = 2;
+        table.style = "width : 300px"
+        let tr = document.createElement("tr");
+        tr.innerHTML = "<td>name</td><td>family</td><td>age</td>";
+        table.append(tr);
+        for (let i in arrays) {
+            let name = arrays[i]['name'];
+            let family = arrays[i]['family'];
+            let age = arrays[i]['age'];
+            tr = document.createElement("tr");
+            tr.innerHTML = `<td>${name}</td><td>${family}</td><td>${age}</td>`;
+            table.append(tr);
+        }
+        return table;
+    }
+    $(document).ready(function () {
+        $('#btn_users').click(function (event) {
+            $.ajax({
+                url: '/example/php_practice/php_test/ajaxPhp2.php',
+                method : 'GET'
+                ,success : function (response) {
+                   console.log(response);
+                    let table = getTableArrays(response);
+                    $('#result').html(table);
+                }
+            })
+        });
+
+    });
+</script>
+</body>
+</html>

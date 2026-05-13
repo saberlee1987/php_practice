@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>animation in javascript</title>
+    <style>
+        #myButton {
+            border-radius: 10px;
+            border: 1px solid green;
+            background-color: aquamarine;
+            width: 500px;
+            padding: 10px;
+        }
+
+        #mySpan {
+            border-radius: 100px;
+            background-color: blanchedalmond;
+            width: 50px;
+            height: 30px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<h4>animation in javascript</h4>
+<hr>
+<button onclick="animateToRight3()" id="myButton">
+    <span id="mySpan"></span>
+</button>
+<script>
+    `use strict`;
+    let x=0;
+    let myButton = document.getElementById("myButton");
+    let circle = myButton.childNodes[1]
+    function animateToRight1() {
+        console.log("animateToRight is called")
+        //let myButton = document.getElementById("myButton");
+        console.log(myButton.clientWidth)
+        //let circle = myButton.childNodes[1]
+        let x = 0;
+        let intId = setInterval(function () {
+            x += 3;
+            if (x < myButton.clientWidth - 60)
+                circle.style.transform = `translate3d(${x}px,0,0)`
+            else
+                clearInterval(intId);
+
+        }, 50);
+    }
+
+    function animateToRight2() {
+        console.log("animateToRight is called")
+        //let myButton = document.getElementById("myButton");
+        // console.log(myButton.clientWidth)
+        //let circle = myButton.childNodes[1]
+        let x = 0;
+        let intId = setTimeout(moveCircle,20)
+    }
+
+    function moveCircle() {
+        x++;
+        circle.style.transform = `translate3d(${x}px,0,0)`;
+        let rnd = Math.random() * 100 / 2;
+        if (x < myButton.clientWidth - 62)
+            setTimeout(moveCircle, rnd)
+    }
+    function moveCircle2(time) {
+        console.log(time)
+        x++;
+        circle.style.transform = `translate3d(${x}px,0,0)`;
+        if (x < myButton.clientWidth - 62)
+            requestAnimationFrame(moveCircle2)
+    }
+
+    function animateToRight3() {
+        requestAnimationFrame(moveCircle2)
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>functions in javascript</title>
+</head>
+<body>
+<h4>functions in javascript</h4>
+<script>
+    console.log("functions in javascript .....");
+
+    function pow(x,n) {
+        if (n===1) return x;
+        else return x * pow(x,n-1);
+    }
+
+    function sumNumbers(...numbers) {
+        let sum = 0;
+        for (let number of numbers) {
+            sum += number;
+            // console.log(typeof number)
+            // console.log("number ==> "+number)
+        }
+        return sum;
+    }
+
+    let sayHi = function (who) {
+        if (who) {
+            console.log(`Hello ${who}`);
+        }else {
+            sayHi("Saber2")
+        }
+    };
+
+    let sayHi2 = function func(who) {
+        if (who) {
+            console.log(`Hello ${who}`);
+        }else {
+            func("Saber2")
+        }
+    };
+
+
+
+    let worker = {
+        someMethod() {
+            return 1;
+        },
+        slow(x) {
+            console.log("called with "+x);
+            return x + this.someMethod();
+        }
+    }
+
+
+    function DecorateSlow(func) {
+        let cache = new Map();
+
+        return function (x) {
+            if (cache.has(x))
+                return cache.get(x);
+
+            let result = func.call(this,x);
+            cache.set(x,result);
+            return result;
+        }
+
+    }
+
+    worker.slow = DecorateSlow(worker.slow);
+    console.log(worker.slow("hello"));
+
+
+
+   //  sayHi2("omid")
+   // let welcome = sayHi2;
+   //  sayHi2 = null;
+   // welcome("ali reza")
+
+    // sayHello2("bruce");
+    // console.log("pow(2,4) ===> "+pow(2,4));
+    // console.log("pow(12,14) ===> "+pow(12,14));
+    // console.log("pow(12,140) ===> "+pow(12,140));
+    // console.log("pow(50,5) ===> "+pow(50,5));
+    // console.log("sum(1,2,3,4,5,6,7,8,9,10) ===> "+sumNumbers(1,2,3,4,5,6,7,8,9,10))
+</script>
+</body>
+</html>

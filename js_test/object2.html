@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>practice object 2</title>
+</head>
+<body>
+    <h4>practice object 2</h4>
+    <script>
+        class Person {
+            static myStaticData = "static data";
+            constructor(firstname,lastname,age,mobile) {
+                this.firstname = firstname;
+                this.lastname = lastname;
+                this.age = age;
+                this.mobile = mobile;
+            }
+            working() {
+                console.log(this.firstname+" working good")
+            }
+        }
+
+        class  Student extends Person {
+            constructor(firstname, lastname, age, mobile, studentNumber, field) {
+                super(firstname, lastname, age, mobile);
+                this.studentNumber = studentNumber;
+                this.field = field;
+            }
+
+            // working() {
+            //     //super.working();
+            //     console.log(this.firstname+"from student working good")
+            // }
+
+            working() {
+                //console.log(arguments);
+                if (arguments.length > 0)
+                    console.log(this.firstname+" from student working good for "+arguments[0])
+                else
+                    console.log(this.firstname+" from student working good ")
+            }
+        }
+
+        console.log(Person.myStaticData);
+        let person1 = new Person("saber","Azizi",38,"09365627895");
+        // console.log(typeof Person);
+        console.log(person1);
+        person1.working();
+
+        let student1 = new Student("saber","Azizi",38,"09365627895","943175737","computer");
+        console.log(student1);
+        student1.working();
+        student1.working(12);
+
+        // let person = {
+        //   firstName : "saber"
+        //   ,lastName : "Azizi"
+        //   ,language : "fa"
+        // };
+        //
+        // person.firstName = "bruce"
+        // console.log(person.firstName);
+        // console.log(person);
+        // let animal = {
+        //     eats: true
+        //     , walk() {
+        //         console.log("walking ......");
+        //     }
+        // }
+        // let rabbit = {
+        //     __proto__: animal
+        //     , jump: true
+        //     , walk() {
+        //         console.log("rabbit walking .....")
+        //     }
+        //
+        // }
+        //
+        // // rabbit.__proto__= animal;
+        // console.log(rabbit);
+        //
+        // console.log(rabbit.eats);
+        // rabbit.walk();
+    </script>
+
+</body>
+</html>

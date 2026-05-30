@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>sync and async in javascript</title>
+</head>
+<body>
+    <h4>sync and async in javascript</h4>
+<script>
+    // let promise = new Promise(function (resolve, reject) {
+    //    setTimeout(()=>{
+    //        console.log(1);
+    //        resolve("done!")
+    //    },100) ;
+    //    // resolve();
+    // });
+    // promise.then(result=> {
+    //     console.log(result);
+    //     test()
+    //         ,error=>console.log(error)
+    // })
+
+    // setTimeout(()=>console.log("Hello 1"),1000);
+    // // test();
+    // setTimeout(function(f){
+    //     console.log(1);
+    //     f()
+    // }(test),200)
+    //
+    // setTimeout(()=>console.log("Hello 2"),500);
+    // setTimeout(()=>console.log("Hello 3"),200);
+
+    function test() {
+         console.log("...async code finish ....")
+    }
+    async function test2() {
+        console.log("we are in test2 func ......")
+    }
+
+    test2().then(function () {
+        console.log("test2 finish ....")
+    });
+    test();
+    console.log("end of code !");
+</script>
+</body>
+</html>

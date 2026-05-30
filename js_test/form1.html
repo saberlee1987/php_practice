@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>form 1 validation</title>
+    <style>
+        form {
+            border: 1px red dotted;
+            text-align: center;
+            padding: 10px;
+        }
+
+        div {
+            border: 1px #980c0c dashed;
+            padding: 10px;
+        }
+
+        p {
+            border: 1px solid gray;
+            padding: 10px;
+        }
+
+        body {
+            line-height: 25px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<h4>form validation</h4>
+<form id="firstForm">FORM
+    <div>DIV
+        <p>Paragraph</p>
+    </div>
+</form>
+<hr>
+<form id="secondForm" name="secondForm">
+    <input type="text" data-validation="notEmpty" name="name" placeholder="name">
+    <input type="text" data-validation="notEmpty" name="family" placeholder="family">
+    <select name="list">
+        <option value="city1">tehran</option>
+        <option value="city2">esfehan</option>
+        <option value="city3">shiraz</option>
+    </select>
+    <button type="submit">submit</button>
+</form>
+<script>
+    // console.log(document.forms)
+    //console.log(secondForm)
+    class FormValidator {
+        constructor(formElement, autoFocusElement) {
+            this.error = false;
+            this.formElement = formElement;
+            //  this.setFocusOnAllElements(formElement);
+            this.focusHandler();
+            this.submitHandler();
+           autoFocusElement.focus();
+        }
+
+        focusHandler() {
+            this.formElement.addEventListener("focusin", function (event) {
+                console.log("focusin on :");
+                console.log(event.target);
+            });
+            this.formElement.addEventListener("focusout", (event) => {
+                console.log("focusout on :");
+                console.log(event.target);
+                if (event.tagName === 'button') return;
+                if (!(event.target.dataset.validation in this)) return;
+                this[event.target.dataset.validation](event.target)
+
+            });
+
+        }
+
+        notEmpty(element) {
+            console.log(element.value);
+            if (element.value.length === 0) {
+                console.log("error value must be value");
+                this.error = true;
+            } else {
+                this.error = false;
+            }
+        }
+
+        submitHandler() {
+            this.formElement.onsubmit = (event) => {
+                event.preventDefault();
+                this.checkDataValidation(this.formElement.elements);
+
+                if (this.error === true) {
+                    alert("you can not submit form")
+                } else {
+                    this.formElement.submit();
+                }
+            };
+        }
+
+        checkDataValidation(elements) {
+            for (let element of elements) {
+                if (!(element.dataset.validation in this)) return;
+                this[element.dataset.validation](element);
+            }
+        }
+
+        setFocusOnAllElements(elements) {
+            for (let element of elements) {
+                element.onfocus = function (event) {
+                    console.log("focus on :");
+                    console.log(event.target);
+                };
+                element.onblur = function (event) {
+                    console.log("onblur on :");
+                    console.log(event.target);
+                }
+            }
+        }
+    }
+
+    let secondForm = document.getElementById("secondForm");
+    new FormValidator(secondForm, secondForm.family);
+</script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bubbling in js</title>
+    <style>
+        form {
+            background-color: green;
+            position: relative;
+            width: 150px;
+            height: 150px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        div {
+            background-color: blue;
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            width: 100px;
+            height: 100px;
+        }
+
+        p {
+            background-color: red;
+            position: absolute;
+            top: 25px;
+            left: 25px;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            margin: 0;
+        }
+        body {
+            line-height: 25px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<h4>bubbling in js</h4>
+
+<form id="myForm">Form
+ <div>DIV
+    <p>P</p>
+ </div>
+</form>
+
+<form id="myForm2">Form
+    <button data-action="save">save</button>
+    <button data-action="reset">reset</button>
+    <button data-action="update">update</button>
+</form>
+
+<script>
+    // for (let element of document.querySelectorAll('*') ) {
+    //     element.addEventListener("click",e=>alert(`Capturing : ${element.tagName}`),true);
+    //     element.addEventListener("click",e=>alert(`Bubbling : ${element.tagName}`));
+    // }
+    // let myForm = document.getElementById("myForm");
+    // myForm.onclick = function (event) {
+    //     event.target.style.backgroundColor = 'yellow';
+    //
+    //     setTimeout(() =>{
+    //        alert("target ==> "+ event.target.tagName + " , this = "+this.tagName);
+    //        event.target.style.backgroundColor = '';
+    //     },0)
+    // };
+    let myForm2 = document.getElementById("myForm2");
+
+    class EventD {
+        constructor(element) {
+            this.element = element;
+            element.onclick = this.onclick.bind(this);
+        }
+        onclick(event) {
+            event.preventDefault();
+            console.log(event.target.dataset.action);
+        }
+    }
+
+    new EventD(myForm2);
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>classes 1 in javascript</title>
+</head>
+<body>
+    <h4>classes 1 in javascript</h4>
+
+<script>
+    `use strict`;
+    class Animal {
+        testData = "testData in animal";
+        constructor(name) {
+            this.animalName = name;
+        }
+
+        walking() {
+            console.log("....walking ....");
+        }
+    }
+
+    class Rabit extends Animal {
+        testData = "testData in rabbit";
+        constructor(name,type) {
+            super(name);
+            this.typeName = type;
+
+        }
+
+        walking() {
+            console.log("... jumping .....")
+        }
+
+        static methodStatic() {
+            console.log("... methodStatic ....");
+        }
+    }
+    let  rabbit = new Rabit("rabbit","typeA");
+    rabbit.walking();
+    console.log(rabbit)
+    Rabit.methodStatic();
+</script>
+</body>
+</html>

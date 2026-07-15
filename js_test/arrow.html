@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>arrow function</title>
+</head>
+<body>
+    <h4>arrow function in Es6</h4>
+    <script>
+        function sum(num1, num2) {
+            return num1 + num2;
+        }
+        let subtract = (num1, num2) => num1 - num2;
+
+        console.log(sum(5,4));
+        console.log(subtract(18,11));
+
+        function Car() {
+            this.speed = 0;
+            this.speedUp = function (speed) {
+                this.speed = speed;
+                let self = this;
+                // setTimeout(function (){
+                //     console.log(this.speed);
+                // }, 1000);
+
+                // setTimeout(function () {
+                //     console.log(self.speed);
+                // },1000)
+
+                setTimeout(() => {
+                    console.log(this.speed);
+                }, 1000);
+            }
+        }
+
+        // let car = new Car();
+        // car.speedUp(15);
+        function show() {
+            console.log(arguments)
+            return (x) => x + arguments[0];
+            // return function (x) {
+            //     console.log(arguments);
+            //     return x + arguments[0];
+            // }
+
+        }
+        let display = show(12,10,11,5,6,8,7,9);
+        console.log(display);
+        console.log(display(7));
+
+    </script>
+</body>
+</html>

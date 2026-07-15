@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>target</title>
+</head>
+<body>
+<h4>target in HTML</h4>
+<script>
+    // function Person(name) {
+    //     this.name = name;
+    //     console.log(new.target);
+    //     return this;
+    // }
+    // let person1 = Person("saber");
+    // let person2 = new Person("bruce");
+    //
+    // console.log(person1);
+    // console.log(person2);
+
+    class Person {
+        constructor(name, age) {
+            this.name = name;
+            this.age = age;
+            console.log(new.target.name);
+        }
+    }
+    class Employee extends Person {
+
+    }
+    class Employer extends Person {
+
+    }
+
+    let person = new Person("ali",32);
+    let employee = new Employee("akbar",27);
+    let employer = new Employer("saber",38);
+</script>
+</body>
+</html>

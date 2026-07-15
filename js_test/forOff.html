@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>for off in js</title>
+</head>
+<body>
+  <h4>for off in js</h4>
+  <script>
+    let person = {
+      "firstName": "John",
+      "lastName": "Doe",
+      "age": 34,
+      "mobile": "09351459874",
+      "email": "john22@yahoo.com"
+    }
+    let countries = new Map();
+    countries.set("USA", "America");
+    countries.set("IRI", "Iran");
+    countries.set("IT", "Italian");
+    countries.set("GER", "Germany");
+    countries.set("SP", "Spanish");
+    countries.set("JA", "Japan");
+    countries.set("Ch", "China");
+    // for (let p in person) {
+    //   console.log(p+": " + person[p]);
+    // }
+    // for (let p of person) {
+    //   console.log(p+": " + person[p]);
+    // }
+
+    for (let [prop, value] of Object.entries(person)) {
+      console.log(prop+" ==> " + value );
+    }
+    console.log("===================================================================================")
+
+    // for (let c of countries) {
+    //   console.log(c[0] +" ==> " + c[1] );
+    // }
+
+    countries.entries().forEach(entry => {
+      console.log(entry[0] + " ==> " + entry[1] );
+    })
+  </script>
+</body>
+</html>

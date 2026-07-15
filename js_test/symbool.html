@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>symbol in js</title>
+</head>
+<body>
+  <h4>symbol in js</h4>
+<script>
+  console.log("symbol in js");
+  let s = Symbol("foo");
+  // console.log(s);
+  let numbers = [1, 2, 3];
+  // console.log(numbers + 1);
+
+  numbers[Symbol.toPrimitive] = function (hint) {
+      // console.log(hint);
+      if (hint === 'number') {
+          console.log("number in hint");
+          return this.reduce((acc, val) => acc + val, 0); // 60
+      } else if (hint === 'string') {
+          console.log("string in hint");
+          return this.join(' - ');
+      } else {
+          console.log("default in hint");
+          // console.log(this);
+          // return this.length;
+          return this.reduce((acc, value) => acc + value, 0);
+      }
+  }
+  console.log(+numbers);
+  console.log(String(numbers));
+  console.log(numbers + 1);
+
+
+  let list = {
+      0 : "javascript",
+      1 : "Symbol",
+      length : 2
+  }
+
+  let list2 = {
+      0 : "javascript",
+      1 : "Symbol",
+      length : 2,
+      [Symbol.isConcatSpreadable]: true
+  }
+  let message =["Saber"].concat(list)
+  let message2 =["Saber"].concat(list2)
+  console.log(message)
+  console.log(message2)
+
+</script>
+</body>
+</html>

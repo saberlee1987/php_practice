@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Array extension in js</title>
+</head>
+<body>
+<h4>Array extension in js</h4>
+<script>
+  // console.log(Array.of("A","B","C","D","E","F"));
+  // console.log(new Array(2))
+  // console.log(new Array("2","3"))
+  function arrayFromArgs() {
+    let results = [];
+    for (let i = 0; i < arguments.length; i++) {
+      results.push(arguments[i]);
+    }
+    return results;
+  }
+
+  function arrayFromArgs2() {
+
+    return Array.prototype.slice.call(arguments);
+  }
+  function arrayFromArgs3() {
+
+    return Array.from(arguments);
+  }
+  let fruits = arrayFromArgs3("Apple3","Orange3","Banana3");
+  // console.log(fruits);
+
+  let doubler = {
+      factor: 2,
+      double(x) {
+          return x * this.factor;
+      }
+  }
+  let scores = [5,6,7,8];
+  let newScores = Array.from(scores,doubler.double,doubler);
+  console.log(newScores);
+  let numbers = [1,2,3,4,5];
+  console.log(numbers.find(e=>e % 2 === 0));
+  console.log(numbers.find(e=>e % 3 === 0));
+</script>
+</body>
+</html>
